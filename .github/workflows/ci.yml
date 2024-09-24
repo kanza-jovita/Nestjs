@@ -1,0 +1,39 @@
+# .github/workflows/ci.yml
+
+name: CI Pipeline
+
+# Trigger CI on push and pull request
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest  # Use the latest Windows VM
+    
+    steps:
+      # Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js for the project
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.14.0'  # Use Node.js version 18 (or replace with the version you need)
+
+      # Install project dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Run tests
+      - name: Run tests
+        run: npm run test  # Ensure you have test scripts set up in package.json
+
+      # Build the project
+      - name: Build project
+        run: npm run build  # Ensure you have a build script in package.json
